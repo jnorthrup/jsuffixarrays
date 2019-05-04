@@ -34,7 +34,7 @@ public enum Algorithm
     private final String name;
 
     /*
-     * 
+     *
      */
     private Algorithm(String name)
     {
@@ -71,9 +71,9 @@ public enum Algorithm
 
             case NS:
                 return new NaiveSort();
-
-            case DIVSUFSORT:
-                return new DivSufSort();
+//kotlin vacation, come back later!
+//            case DIVSUFSORT:
+//                return new DivSufSort();
 
             case SAIS:
                 return new SAIS();
@@ -97,7 +97,7 @@ public enum Algorithm
      * instance will overwrite input.</b>
      * <p>
      * If not, create default instance
-     * 
+     *
      * @return Create and return low memory consuming instance.
      */
     public ISuffixArrayBuilder getMemoryConservingInstance()

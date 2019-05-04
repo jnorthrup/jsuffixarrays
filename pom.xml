@@ -6,11 +6,11 @@
   <!--
     We use SonaType for publishing artefacts. Parent POM makes things easier here.
   -->
-  <parent>
+<!--  <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
     <version>5</version>
-  </parent>
+  </parent>-->
 
   <!-- Project info. -->
   <groupId>com.carrotsearch</groupId>
@@ -79,8 +79,9 @@
   <!-- Global properties. -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>12</maven.compiler.source>
+    <maven.compiler.target>12</maven.compiler.target>
+      <kotlin.version>1.3.31</kotlin.version>
   </properties>
 
 
@@ -114,6 +115,22 @@
     	<type>jar</type>
     	<scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-stdlib-jdk8</artifactId>
+          <version>${kotlin.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-test</artifactId>
+          <version>${kotlin.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-stdlib-jdk8</artifactId>
+          <version>${kotlin.version}</version>
+      </dependency>
   </dependencies>
 
 
@@ -121,6 +138,7 @@
   <build>
     <defaultGoal>install</defaultGoal>
 
+<!--
     <pluginManagement>
       <plugins>      
         <plugin>
@@ -153,8 +171,10 @@
         </plugin>
       </plugins>
     </pluginManagement>
+-->
 
     <plugins>
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-eclipse-plugin</artifactId>
@@ -163,8 +183,9 @@
           <buildOutputDirectory>${project.build.directory}/eclipse</buildOutputDirectory>
         </configuration>
       </plugin>
-    
-      <plugin>
+-->
+
+<!--      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
@@ -172,8 +193,8 @@
           <useReleaseProfile>true</useReleaseProfile>
           <releaseProfiles>release,maven-release</releaseProfiles>
         </configuration>
-      </plugin>
-      
+      </plugin>-->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -183,13 +204,57 @@
             <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
           </suiteXmlFiles>
         </configuration>
-      </plugin>      
+      </plugin>
+        <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <version>${kotlin.version}</version>
+            <executions>
+                <execution>
+                    <id>compile</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>test-compile</id>
+                    <phase>test-compile</phase>
+                    <goals>
+                        <goal>test-compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <jvmTarget>12</jvmTarget>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>compile</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>testCompile</id>
+                    <phase>test-compile</phase>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
 
 
   <!-- Reports -->
-  <reporting>
+<!--  <reporting>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -222,11 +287,10 @@
         </configuration>
       </plugin>
     </plugins>
-  </reporting>
-
-
+  </reporting>-->
+<!--
   <profiles>
-    <!-- No tests, no additional checks. -->
+    &lt;!&ndash; No tests, no additional checks. &ndash;&gt;
     <profile>
       <id>fastinstall</id>
       <properties>
@@ -238,7 +302,7 @@
     </profile>
 
 
-    <!-- Execute clover code coverage reports via ANT. -->
+    &lt;!&ndash; Execute clover code coverage reports via ANT. &ndash;&gt;
     <profile>
       <id>clover</id>
 
@@ -278,7 +342,7 @@
     </profile>
 
 
-    <!-- Release mode. -->
+    &lt;!&ndash; Release mode. &ndash;&gt;
     <profile>
       <id>release</id>
 
@@ -286,7 +350,7 @@
         <defaultGoal>package</defaultGoal>
 
         <plugins>
-          <!-- Attach and modify JavaDocs. -->
+          &lt;!&ndash; Attach and modify JavaDocs. &ndash;&gt;
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
@@ -308,7 +372,7 @@
             </executions>
           </plugin>
 
-          <!-- Attach sources -->
+          &lt;!&ndash; Attach sources &ndash;&gt;
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -322,10 +386,10 @@
             </executions>
           </plugin>
 
-          <!--
+          &lt;!&ndash;
             Configure assembly of ZIP and TAR.GZ bundles (stand-alone
             distributions).
-          -->
+          &ndash;&gt;
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <configuration>
@@ -347,7 +411,7 @@
             </executions>
           </plugin>
 	  
-          <!-- GPG sign artefacts. -->
+          &lt;!&ndash; GPG sign artefacts. &ndash;&gt;
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -369,5 +433,5 @@
         </plugins>
       </build>
     </profile>
-  </profiles>
+  </profiles>-->
 </project>
